@@ -1,0 +1,68 @@
+﻿@model IEnumerable<ApplicationService.DTOs.OrderDTO>
+@using MotoShopMVC.Controllers
+@using X.PagedList;
+@using X.PagedList.Mvc.Core
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Orders</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<form asp-controller="Orders" asp-action="Index" method="get">
+    <p>
+        Search by order name: <input type="text" name="SearchString" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MotorcycleId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Motorcycle.Make)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.FName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderDate)
+            </td>
+            <td>
+                <a asp-action="EditGet" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="DeleteGet" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<br/>
+
+@Html.PagedListPager((IPagedList<ApplicationService.DTOs.OrderDTO>)Model, page => Url.Action("Index",
+        new { page = page }), new PagedListRenderOptions
+        {
+            PageClasses = new String[] { "page-link" }
+        })

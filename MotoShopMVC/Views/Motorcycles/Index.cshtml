@@ -1,0 +1,80 @@
+﻿@model IEnumerable<ApplicationService.DTOs.MotorcycleDTO>
+@using X.PagedList;
+@using X.PagedList.Mvc.Core
+@using MotoShopMVC.Controllers
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Motorcycles</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<form asp-controller="Motorcycles" asp-action="Index" method="get">
+    <p>
+        Search by make: <input type="text" name="SearchString" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Make)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ManufactureDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HP)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsAvailable)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Make)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManufactureDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsAvailable)
+            </td>
+            <td>
+                <a asp-action="EditGet" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="DeleteGet" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<br />
+ 
+
+        
+@Html.PagedListPager((IPagedList<ApplicationService.DTOs.MotorcycleDTO>)Model, page => Url.Action("Index",
+    new { page = page}), new PagedListRenderOptions
+    {
+        PageClasses = new String[]{"page-link"}
+    })
+
+
+    
+
